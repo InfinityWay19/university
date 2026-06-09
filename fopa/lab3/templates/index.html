@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Чек-лист</title>
+</head>
+<body>
+
+<h1>Чек-лист</h1>
+
+<form action="/add" method="post">
+  <input type="text" name="title" placeholder="Новая задача">
+  <button type="submit">Добавить</button>
+</form>
+
+<hr>
+
+{% if tasks %}
+  <p>Выполнено: {{ tasks | selectattr('done') | list | length }} из {{ tasks | length }}</p>
+  <ul>
+    {% for task in tasks %}
+    <li>
+      <form action="/toggle/{{ task.id }}" method="post" style="display:inline">
+        <button type="submit">{% if task.done %}✓{% else %}○{% endif %}</button>
+      </form>
+
+      {% if task.done %}<s>{{ task.title }}</s>{% else %}{{ task.title }}{% endif %}
+
+      <form action="/edit/{{ task.id }}" method="post" style="display:inline">
+        <input type="text" name="title" value="{{ task.title }}">
+        <button type="submit">Изменить</button>
+      </form>
+
+      <form action="/delete/{{ task.id }}" method="post" style="display:inline">
+        <button type="submit">Удалить</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Список пуст.</p>
+{% endif %}
+
+</body>
+</html>

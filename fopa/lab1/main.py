@@ -1,3 +1,3 @@
-import Parser
+import parcer
 if __name__ == '__main__':
-    Parser.parse()
+    parcer.parse
